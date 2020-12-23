@@ -1,0 +1,17 @@
+.Home {
+	height: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.Title {
+	margin-bottom: auto;
+}
+
+.Button {
+	font-size: 36px;
+	height: 100px;
+	width: 300px;
+}
