@@ -3,10 +3,12 @@
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
+	"engines": {
+		"node": "14.15.0"
+	},
 	"scripts": {
 		"start": "concurrently \"webpack --mode=development --watch\" \"nodemon app.js\"",
-		"build": "webpack --mode=production",
-		"start:prod": "node app.js"
+		"build": "webpack --mode=production"
 	},
 	"keywords": [],
 	"author": "",
