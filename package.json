@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "concurrently \"webpack --mode=development --watch\" \"nodemon app.js\"",
 		"build": "webpack --mode=production",
-		"start:prod": "pm2 start app.js"
+		"start:prod": "nodemon app.js"
 	},
 	"keywords": [],
 	"author": "",
