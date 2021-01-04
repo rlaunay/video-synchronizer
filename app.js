@@ -1,6 +1,5 @@
 const path = require('path')
 const http = require('http')
-const url = require('url')
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -44,6 +43,14 @@ io.on('connection', (socket) => {
 
 		socket.to(roomId).emit('newVideo', newVideoId)
 		socket.emit('newVideo', newVideoId)
+	})
+
+	socket.on('playVideo', (roomId) => {
+		socket.to(roomId).emit('startVideo')
+	})
+
+	socket.on('pauseVideo', (roomId) => {
+		socket.to(roomId).emit('stopVideo')
 	})
 
 	socket.on('disconnect', () => {
