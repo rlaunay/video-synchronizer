@@ -35,6 +35,7 @@ const Room = () => {
 
     useEffect(() => {
         socket.on('newVideo', (newVideoId) => {
+            window.FIRST = true
             setVideoId(newVideoId)
         })
     }, [videoId])
