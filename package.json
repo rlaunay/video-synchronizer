@@ -1,16 +1,40 @@
 {
-  "name": "VideoSync",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "webpack": "^5.11.0",
-    "webpack-cli": "^4.2.0"
-  }
+	"name": "video-synchronizer",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "concurrently \"webpack --mode=development --watch\" \"nodemon app.js\"",
+		"build": "webpack --mode=production",
+		"start:prod": "pm2 start app.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@babel/core": "^7.12.10",
+		"@babel/preset-env": "^7.12.11",
+		"@babel/preset-react": "^7.12.10",
+		"babel-loader": "^8.2.2",
+		"concurrently": "^5.3.0",
+		"css-loader": "^5.0.1",
+		"nodemon": "^2.0.6",
+		"sass": "^1.30.0",
+		"sass-loader": "^10.1.0",
+		"style-loader": "^2.0.0",
+		"webpack": "^5.11.0",
+		"webpack-cli": "^4.2.0"
+	},
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"express": "^4.17.1",
+		"pm2": "^4.5.1",
+		"react": "^17.0.1",
+		"react-dom": "^17.0.1",
+		"react-router-dom": "^5.2.0",
+		"react-youtube": "^7.13.0",
+		"socket.io": "^3.0.4",
+		"socket.io-client": "^3.0.4",
+		"uuid": "^8.3.2"
+	}
 }
