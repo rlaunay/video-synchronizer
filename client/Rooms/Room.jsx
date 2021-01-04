@@ -17,7 +17,7 @@ const Room = () => {
 
     const [error, setError] = useState('')
 
-    const ENDPOINT = 'localhost:3000'
+    const ENDPOINT = window.location.host
 
     useEffect(() => {
         socket = io(ENDPOINT)

@@ -5,7 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "concurrently \"webpack --mode=development --watch\" \"nodemon app.js\"",
-		"build": "webpack --mode=production"
+		"build": "webpack --mode=production",
+		"start:prod": "pm2 app.js"
 	},
 	"keywords": [],
 	"author": "",
@@ -27,6 +28,7 @@
 	"dependencies": {
 		"body-parser": "^1.19.0",
 		"express": "^4.17.1",
+		"pm2": "^4.5.1",
 		"react": "^17.0.1",
 		"react-dom": "^17.0.1",
 		"react-router-dom": "^5.2.0",
