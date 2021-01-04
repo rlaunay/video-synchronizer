@@ -1,5 +1,6 @@
 const path = require('path')
 const http = require('http')
+const url = require('url')
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -8,8 +9,9 @@ const socketio = require('socket.io')
 const {
 	getVideoIdFromURl,
 	joinRoom,
-	delRoom,
+	leftRoom,
 	addVideo,
+	getNbPeople
 } = require('./utils/video')
 
 const PORT = process.env.PORT || 3000
@@ -24,22 +26,32 @@ io.on('connection', (socket) => {
 	socket.on('join', ({ roomId }) => {
 		console.log(roomId)
 
-		joinRoom(roomId)
+		const videoId = joinRoom(roomId)
 		socket.join(roomId)
-		console.log(socket.rooms)
-		console.log(socket.rooms.size)
+		const nbPeople = getNbPeople(roomId)
+		socket.to(roomId).emit('newPeople', nbPeople)
+		socket.emit('newPeople', nbPeople)
+		if (videoId) {
+			socket.emit('newVideo', videoId)
+		}
 	})
 
 	socket.on('addVideo', ({ roomId, videoUrl }) => {
 		console.log('room:', roomId, 'video:', videoUrl)
 		const newVideoId = getVideoIdFromURl(videoUrl)
+		console.log(newVideoId)
+		addVideo(roomId, newVideoId)
 
 		socket.to(roomId).emit('newVideo', newVideoId)
 		socket.emit('newVideo', newVideoId)
 	})
 
 	socket.on('disconnect', () => {
-		console.log(socket.rooms.size)
+		const urlSplit = socket.handshake.headers.referer.split('/')
+		const roomId = urlSplit.pop()
+		leftRoom(roomId)
+		const nbPeople = getNbPeople(roomId)
+		socket.to(roomId).emit('newPeople', nbPeople)
 		console.log('User left')
 	})
 })

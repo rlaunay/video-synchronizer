@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import io from 'socket.io-client'
 
+import PeopleIcon  from './../icons/PeopleFill'
+import './Room.scss'
+
 let socket
 
 const Room = () => {
@@ -9,6 +12,7 @@ const Room = () => {
 
 	const [videoUrl, setVideoUrl] = useState('')
 	const [videoId, setVideoId] = useState('')
+	const [nbPeople, setNbPeople] = useState(0)
 
 	const [error, setError] = useState('')
 
@@ -16,13 +20,17 @@ const Room = () => {
 
 	useEffect(() => {
 		socket = io(ENDPOINT)
-
 		socket.emit('join', { roomId })
-
 		return () => {
 			socket.disconnect()
 		}
 	}, [roomId])
+
+	useEffect(() => {
+		socket.on('newPeople', (nbPeople) => {
+			setNbPeople(nbPeople)
+		})
+	}, [nbPeople])
 
 	useEffect(() => {
 		socket.on('newVideo', (newVideoId) => {
@@ -41,12 +49,16 @@ const Room = () => {
 	return (
 		<div className="container">
 			<div className="row">
-				<h1>{roomId}</h1>
+				<h1 className="text-center mt-5">Video Synchronizer</h1>
+				<div className="d-flex justify-content-center align-items-center mt-3">
+					<PeopleIcon />
+					<span className="NumbersOfPeople">{nbPeople}</span>
+				</div>
 			</div>
-			<div className="row mb-3">
-				<label className="form-label" htmlFor="videoUrl">
+			<label className="form-label mt-5" htmlFor="videoUrl">
 					Enter youtube video URL
-				</label>
+			</label>
+			<div className="input-group mb-3 url-form">
 				<input
 					className={'form-control ' + error}
 					type="text"
@@ -56,7 +68,7 @@ const Room = () => {
 					value={videoUrl}
 					onChange={(e) => setVideoUrl(e.target.value)}
 				/>
-				<div id="urlInvalid" className="invalid-feedback">
+				<div id="urlInvalid" className="invalid-feedback ErrorLabel">
 					Please enter an URL
 				</div>
 				<button
